@@ -20,7 +20,7 @@ public class CursoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Registra un curso
+    // Registrar un curso
     public DatosOutputCurso registrarCurso(DatosInputRegistrarCurso datos) {
         // Revisa si existe un docente que cumpla las condiciones en la base de datos
         Optional<Usuario> docenteVerificado = usuarioRepository.obtenerUsuarioPorIdYPerfil(datos.docenteId(), Perfil.DOCENTE);
@@ -40,7 +40,7 @@ public class CursoService {
         }
     }
 
-    // Registra un estudiante a un curso
+    // Registrar un estudiante a un curso
     public DatosOutputRegistrarEstudianteCurso registrarEstudiante(DatosInputRegistrarEstudianteCurso datos) {
         // Verifica si el usuario ingresado es un estudiante
         Optional<Usuario> estudianteRegistrado = usuarioRepository.obtenerUsuarioPorIdYPerfil(datos.estudiante_id(), Perfil.ESTUDIANTE);

@@ -24,7 +24,7 @@ public class TopicoService {
     @Autowired
     CursoRepository cursoRepository;
 
-    // Registra un nuevo tópico
+    // Registrar un nuevo tópico
     public DatosOutputTopico registrarTopico(DatosInputTopico datos) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
         Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.usuario_id());
@@ -46,17 +46,17 @@ public class TopicoService {
         }
     }
 
-    // Obtener un listado de todos los tópicos activos en la base de datos
+    // Obtener un listado de tópicos activos
     public Page<DatosOutputTopico> obtenerTopicosActivos(Pageable paginacion) {
         return topicoRepository.obtenerTopicosPorStatus(paginacion, false).map(DatosOutputTopico::new);
     }
 
-    // Obtener un listado de todos los tópicos con el status suministrado
+    // Obtener el listado de tópicos registrados por status
     public Page<DatosOutputTopico> obtenerTopicosPorStatus(Pageable paginacion, boolean status) {
         return topicoRepository.obtenerTopicosPorStatus(paginacion, status).map(DatosOutputTopico::new);
     }
 
-    // Obtener un listado de todos los tópicos registrados en la base de datos
+    // Obtener el listado de tópicos
     public Page<DatosOutputTopico> obtenerTopicos(Pageable paginacion) {
         return topicoRepository.findAll(paginacion).map(DatosOutputTopico::new);
     }

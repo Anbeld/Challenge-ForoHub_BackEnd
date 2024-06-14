@@ -26,21 +26,21 @@ public class TopicoController {
         return ResponseEntity.ok(response);
     }
 
-    // Obtiene todos los tópicos activos
+    // Obtiene el listado de tópicos activos
     @GetMapping
     public ResponseEntity<Page<DatosOutputTopico>> obtenerTopicosActivos(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion){
         var response = service.obtenerTopicosActivos(paginacion);
         return ResponseEntity.ok(response);
     }
 
-    // Obtiene todos los tópicos que cumplan la condición
+    // Obtiene el listado de tópicos registrados por status
     @GetMapping("/{status}")
     public ResponseEntity<Page<DatosOutputTopico>> obtenerTopicosPorStatus(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion, @PathVariable boolean status){
         var response = service.obtenerTopicosPorStatus(paginacion, status);
         return ResponseEntity.ok(response);
     }
 
-    // Obtiene todos los tópicos registrados
+    // Obtiene el listado de tópicos
     @GetMapping("/all")
     public ResponseEntity<Page<DatosOutputTopico>> obtenerTopicos(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion){
         var response = service.obtenerTopicos(paginacion);

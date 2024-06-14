@@ -25,21 +25,21 @@ public class RespuestaController {
         return ResponseEntity.ok(response);
     }
 
-    // Obtener un listado de todos las respuestas con tópicos activos en la base de datos
+    // Obtiene un listado de respuestas con tópicos activos
     @GetMapping
     public ResponseEntity<Page<DatosOutputRespuesta>> obtenerRespuestasPorTopicosActivos(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion){
         var response = service.obtenerRespuestasPorTopicosActivos(paginacion);
         return ResponseEntity.ok(response);
     }
 
-    // Obtener un listado de todos las respuestas por autor_id
+    // Obtiene un listado de respuestas por autor_id
     @GetMapping("/autor/{id}")
     public ResponseEntity<Page<DatosOutputRespuesta>> obtenerRespuestasPorAutorId(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion, @PathVariable Long id){
         var response = service.obtenerRespuestasPorAutorId(paginacion, id);
         return ResponseEntity.ok(response);
     }
 
-    // Obtener un listado de todos las respuestas por topico_id
+    // Obtiene un listado de respuestas por topico_id
     @GetMapping("/topico/{id}")
     public ResponseEntity<Page<DatosOutputRespuesta>> obtenerRespuestasPorTopicoId(@PageableDefault(page = 0, size = 10, sort = {"fechaCreacion"}) Pageable paginacion, @PathVariable Long id){
         var response = service.obtenerRespuestasPorTopicoId(paginacion, id);

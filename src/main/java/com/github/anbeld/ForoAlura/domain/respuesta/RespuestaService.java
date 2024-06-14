@@ -24,7 +24,7 @@ public class RespuestaService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // Registra una nueva respuesta
+    // Registrar una nueva respuesta
     public DatosOutputRespuesta registrarRespuesta(DatosInputRespuesta datos) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
         Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.autor_id());
@@ -46,11 +46,12 @@ public class RespuestaService {
         }
     }
 
-    // Obtener un listado de todos las respuestas con tópicos activos en la base de datos
+    // Obtener un listado de respuestas con tópicos activos
     public Page<DatosOutputRespuesta> obtenerRespuestasPorTopicosActivos(Pageable paginacion) {
         return respuestaRepository.obtenerRespuestasPorTopicosActivos(paginacion).map(DatosOutputRespuesta::new);
     }
 
+    // Obtener un listado de respuestas por autor_id
     public Page<DatosOutputRespuesta> obtenerRespuestasPorAutorId(Pageable paginacion, Long id) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
         Optional<Usuario> usuarioRegitrado = usuarioRepository.findById(id);
@@ -62,6 +63,7 @@ public class RespuestaService {
         }
     }
 
+    // Obtener un listado de respuestas por topico_id
     public Page<DatosOutputRespuesta> obtenerRespuestasPorTopicoId(Pageable paginacion, Long id) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
         Optional<Topico> topicoRegitrado = topicoRepository.findById(id);

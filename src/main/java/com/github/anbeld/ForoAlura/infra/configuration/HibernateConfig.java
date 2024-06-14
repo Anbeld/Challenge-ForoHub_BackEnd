@@ -1,4 +1,4 @@
-package com.github.anbeld.ForoAlura.configuration;
+package com.github.anbeld.ForoAlura.infra.configuration;
 
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;

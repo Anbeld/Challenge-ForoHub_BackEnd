@@ -2,7 +2,6 @@ package com.github.anbeld.ForoAlura.controller;
 
 import com.github.anbeld.ForoAlura.domain.usuario.DatosInputLoginUsuario;
 import com.github.anbeld.ForoAlura.domain.usuario.DatosOutputLoginUsuario;
-import com.github.anbeld.ForoAlura.domain.usuario.DatosOutputUsuario;
 import com.github.anbeld.ForoAlura.domain.usuario.UsuarioService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,7 +19,7 @@ public class AuthenticationController {
     @Autowired
     private UsuarioService service;
 
-    // Verifica la información para dar acceso al usuario
+    // Verifica la información para iniciar sesión
     @PostMapping
     @Transactional
     public ResponseEntity<DatosOutputLoginUsuario> login(@RequestBody @Valid DatosInputLoginUsuario datos) {

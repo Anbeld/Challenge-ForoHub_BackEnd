@@ -12,7 +12,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
-    // Iniciar sesión
+    // Verificar la información para iniciar sesión
     public DatosOutputLoginUsuario login(DatosInputLoginUsuario datos) {
         // Verifica si la información que el usuario suministra exista en la base de datos
         var response = repository.verificarCorreoPasswordUsuarioLogin(datos.email(), datos.password());
