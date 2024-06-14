@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -25,4 +26,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(value = "SELECT s FROM Usuario s WHERE s.id=:id")
     Optional<Usuario> obtenerUsuarioPorId(Long id);
+
+    UserDetails findByEmail(String email);
+
+    @Query(value = "SELECT s FROM Usuario s WHERE s.email=:email")
+    Optional<Usuario> obtenerUsuarioPorEmail(String email);
 }

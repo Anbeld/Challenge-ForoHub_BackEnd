@@ -1,5 +1,6 @@
 package com.github.anbeld.ForoHub.infra.errores;
 
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class TratadorDeErrores {
     public ResponseEntity tratarError400(MethodArgumentNotValidException e) {
         var errores = e.getFieldErrors().stream().map(DatosErrorValidacion::new).toList();
         return ResponseEntity.badRequest().body(errores);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity tratarError403(MalformedJwtException e) {
+        return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(ValidacionDeIntegridad.class)

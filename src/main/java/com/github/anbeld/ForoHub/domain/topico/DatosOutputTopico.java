@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 public record DatosOutputTopico(
         @JsonAlias("id")
         Long topico_id,
+        String autor,
         String titulo,
         String mensaje,
         LocalDateTime fechaCreacion,
@@ -14,6 +15,6 @@ public record DatosOutputTopico(
         String nombreCurso
 ) {
     public DatosOutputTopico (Topico topico){
-        this(topico.getId(), topico.getTitulo(), topico.getMensaje(), topico.getFechaCreacion(), topico.isResuelto(), topico.getCurso().getNombre());
+        this(topico.getId(), topico.getAutor().getUserName(), topico.getTitulo(), topico.getMensaje(), topico.getFechaCreacion(), topico.isResuelto(), topico.getCurso().getNombre());
     }
 }

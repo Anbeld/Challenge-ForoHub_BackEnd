@@ -10,6 +10,6 @@ public record DatosOutputRegistrarEstudianteCurso(
         String cursoRegistrado
 ) {
     public DatosOutputRegistrarEstudianteCurso(Usuario estudiante, Curso curso) {
-        this(estudiante.getUserName(), curso.getNombre());
+        this(estudiante.getUsername(), curso.getNombre());
     }
 }
