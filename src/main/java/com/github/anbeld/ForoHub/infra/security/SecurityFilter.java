@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -26,7 +27,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private Claims claims;
 
-
+    // Revisa las request, las válida y las realiza si la validación es correcta
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -34,10 +35,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String requestMethod = request.getMethod();
 
         // Omitir validación si pertenece a alguna de las siguientes condiciones
-        if (requestURI.equals("/login") && requestMethod.equals("POST") ||
-                requestURI.equals("/estudiantes") && requestMethod.equals("POST") ||
-                requestURI.equals("/docentes") && requestMethod.equals("POST") ||
-                requestURI.startsWith("/swagger-ui")) {
+        if (omitirValidacion(requestURI, requestMethod)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -55,16 +53,22 @@ public class SecurityFilter extends OncePerRequestFilter {
                     var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    throw new ValidacionDeIntegridad("Ingresar token de autorización válido");
                 }
-            } else {
-                throw new ValidacionDeIntegridad("El token no es válido");
             }
-        } else {
-            throw new ValidacionDeIntegridad("Debe ingresar un token");
         }
         filterChain.doFilter(request, response);
+    }
+
+    // Omite la validación para ciertas rutas y métodos
+    private boolean omitirValidacion(String requestURI, String requestMethod) {
+        if (requestMethod.equals("POST")) {
+            return requestURI.equals("/login") || requestURI.equals("/estudiantes") || requestURI.equals("/docentes");
+        } else {
+            return requestURI.startsWith("/swagger-ui.html") ||
+                    requestURI.startsWith("/v3/api-docs") ||
+                    requestURI.startsWith("/swagger-ui") ||
+                    requestURI.startsWith("/swagger-ui/index.html#/");
+        }
     }
 
     public Boolean isAdmin() {

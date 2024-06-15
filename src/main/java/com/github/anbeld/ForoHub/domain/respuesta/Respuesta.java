@@ -3,10 +3,7 @@ package com.github.anbeld.ForoHub.domain.respuesta;
 import com.github.anbeld.ForoHub.domain.topico.Topico;
 import com.github.anbeld.ForoHub.domain.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +30,9 @@ public class Respuesta {
     private Usuario autor;
 
     private String respuesta;
+
+    @Setter
+    private String url;
 
     public Respuesta(String respuesta, Usuario autor, Topico topico) {
         this.topico = topico;

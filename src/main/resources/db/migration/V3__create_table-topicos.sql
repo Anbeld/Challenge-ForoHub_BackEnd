@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS topicos (
     mensaje VARCHAR(2000) NOT NULL,
     fechaCreacion DATETIME NOT NULL,
     resuelto TINYINT NOT NULL,
+    url VARCHAR(300),
     autor_id BIGINT NOT NULL,
     curso_id BIGINT NOT NULL,
 

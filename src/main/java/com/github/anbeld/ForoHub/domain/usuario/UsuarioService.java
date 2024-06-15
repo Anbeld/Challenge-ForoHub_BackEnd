@@ -13,6 +13,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -36,7 +44,6 @@ public class UsuarioService {
         if (usuarioRegistrado.isEmpty()) {
             throw new UsernameNotFoundException("Usuario no encontrado con el email: " + datos.email());
         }
-
         try {
             Authentication authToken = new UsernamePasswordAuthenticationToken(
                     datos.email(), datos.password());
@@ -53,11 +60,33 @@ public class UsuarioService {
     }
 
     // Registrar nuevo usuario
-    public DatosOutputUsuario registrarUsuario(DatosInputRegistrarUsuario datos, Perfil perfil) {
+    public Usuario registrarUsuario(DatosInputRegistrarUsuario datos, Perfil perfil, UriComponentsBuilder uriComponentsBuilder) {
         var encryptedPassword = passwordEncoder.encode(datos.password());
-        Usuario nuevoUsuario = new Usuario(datos, perfil, encryptedPassword);
-        repository.save(nuevoUsuario); // Guarda el nuevo usuario en la base de datos
-        return new DatosOutputUsuario(nuevoUsuario);
+
+        // Revisa si existe un usuario inscrito que ya tenga el email ingresado
+        Optional<Usuario> usuarioRegistrado = repository.obtenerUsuarioPorEmail(datos.email());
+
+        // Crea y guarda el nuevo usuario en la base de datos
+        if (usuarioRegistrado.isEmpty()) {
+            Usuario nuevoUsuario = new Usuario(datos, perfil, encryptedPassword);
+            repository.save(nuevoUsuario); // Guarda el nuevo usuario en la base de datos
+
+            // Crea la url en base al perfil y al id del usuario
+            URI url = uriComponentsBuilder.path("/{perfil}/{id}")
+                    .buildAndExpand(
+                            nuevoUsuario.getUserRole().toString().toLowerCase() + "s",
+                            nuevoUsuario.getId()).toUri();
+
+            // Codifica la URL antes de guardarla
+            String urlEncoded = URLEncoder.encode(String.valueOf(url), StandardCharsets.UTF_8);
+            nuevoUsuario.setUrl(urlEncoded);
+
+            repository.save(nuevoUsuario); // Agrega la url del nuevo usuario en la base de datos
+            return nuevoUsuario;
+
+        } else {
+            throw new ValidacionDeIntegridad("El email " + datos.email() + " ya está en uso");
+        }
     }
 
     // Obtener listado de usuarios activos por perfil

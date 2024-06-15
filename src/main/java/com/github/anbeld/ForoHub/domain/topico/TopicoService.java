@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Service
@@ -25,7 +29,7 @@ public class TopicoService {
     CursoRepository cursoRepository;
 
     // Registrar un nuevo tópico
-    public DatosOutputTopico registrarTopico(DatosInputTopico datos) {
+    public Topico registrarTopico(DatosInputTopico datos, UriComponentsBuilder uriComponentsBuilder) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
         Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.usuario_id());
 
@@ -33,11 +37,22 @@ public class TopicoService {
             // Revisa si existe un curso registrado con ese id en la base de datos
             Optional<Curso> cursoRegistrado = cursoRepository.obtenerCursoPorId(datos.curso_id());
 
-            // Crea el tópico y lo guarda en la base de datos
+            // Crea y guarda el nuevo tópico en la base de datos
             if (cursoRegistrado.isPresent()) {
                 Topico nuevoTopico = new Topico(datos, usuarioRegistrado.get(), cursoRegistrado.get());
                 topicoRepository.save(nuevoTopico);
-                return new DatosOutputTopico(nuevoTopico);
+
+                // Crea la url en base al id del topico
+                URI url = uriComponentsBuilder.path("/topicos/{id}")
+                        .buildAndExpand(nuevoTopico.getId()).toUri();
+
+                // Codifica la URL antes de guardarla
+                String urlEncoded = URLEncoder.encode(String.valueOf(url), StandardCharsets.UTF_8);
+                nuevoTopico.setUrl(urlEncoded);
+
+                topicoRepository.save(nuevoTopico); // Agrega la url del nuevo topico en la base de datos
+                return nuevoTopico;
+
             } else {
                 throw new ValidacionDeIntegridad("El curso ingresado no es válido");
             }

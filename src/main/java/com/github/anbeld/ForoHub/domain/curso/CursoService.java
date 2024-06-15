@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @Service
@@ -21,17 +25,30 @@ public class CursoService {
     private UsuarioRepository usuarioRepository;
 
     // Registrar un curso
-    public DatosOutputCurso registrarCurso(DatosInputRegistrarCurso datos) {
+    public Curso registrarCurso(DatosInputRegistrarCurso datos, UriComponentsBuilder uriComponentsBuilder) {
         // Revisa si existe un docente que cumpla las condiciones en la base de datos
         Optional<Usuario> docenteVerificado = usuarioRepository.obtenerUsuarioPorIdYPerfil(datos.docenteId(), Perfil.DOCENTE);
 
         if (docenteVerificado.isPresent()) {
             // Revisa si existe un curso inscrito que ya tenga el nombre ingresado
             Optional<Curso> cursoRegistrado = cursoRepository.findByNombre(datos.nombre());
+
+            // Crea y guarda el nuevo curso en la base de datos
             if (cursoRegistrado.isEmpty()) {
                 Curso nuevoCurso = new Curso(datos, docenteVerificado.get());
                 cursoRepository.save(nuevoCurso);
-                return new DatosOutputCurso(nuevoCurso);
+
+                // Crea la url en base al id del curso
+                URI url = uriComponentsBuilder.path("/cursos/{id}")
+                        .buildAndExpand(nuevoCurso.getId()).toUri();
+
+                // Codifica la URL antes de guardarla
+                String urlEncoded = URLEncoder.encode(String.valueOf(url), StandardCharsets.UTF_8);
+                nuevoCurso.setUrl(urlEncoded);
+
+                cursoRepository.save(nuevoCurso); // Agrega la url del nuevo curso en la base de datos
+                return nuevoCurso;
+
             } else {
                 throw new ValidacionDeIntegridad("El nombre del curso ya está en uso");
             }
@@ -75,7 +92,7 @@ public class CursoService {
             Page<Curso> cursos = cursoRepository.obtenerCursosPorIdDocente(paginacion, id);
             return cursos.map(DatosOutputCurso::new);
 
-        // Si es estudiante, muestra todos los cursos en lo que se encuentra registrado
+            // Si es estudiante, muestra todos los cursos en lo que se encuentra registrado
         } else {
             Page<Curso> cursos = cursoRepository.obtenerCursosPorIdEstudiante(paginacion, id);
             return cursos.map(DatosOutputCurso::new);

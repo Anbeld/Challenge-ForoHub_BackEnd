@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS cursos (
     nombre VARCHAR(100) NOT NULL UNIQUE,
     categoria VARCHAR(20) NOT NULL,
     numeroEstudiantes INTEGER NOT NULL,
+    url VARCHAR(300),
     docente_id BIGINT NOT NULL,
 
     PRIMARY KEY (id),

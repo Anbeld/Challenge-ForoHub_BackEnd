@@ -1,9 +1,9 @@
 package com.github.anbeld.ForoHub.controller;
 
 import com.github.anbeld.ForoHub.domain.usuario.DatosInputLoginUsuario;
-import com.github.anbeld.ForoHub.domain.usuario.DatosOutputLoginUsuario;
 import com.github.anbeld.ForoHub.domain.usuario.UsuarioService;
 import com.github.anbeld.ForoHub.infra.security.DatosJWTToken;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -25,7 +25,10 @@ public class AuthenticationController {
     // Verifica la información para iniciar sesión
     @PostMapping
     @Transactional
-    @Tag(name = "Login", description = "Verifica la información del usuario y le suministra un token de acceso para el resto de endpoint")
+    @Operation(
+            summary = "Login",
+            description = "Verifica la información del usuario y le suministra un token de acceso para el resto de endpoint",
+            tags = { "Autenticacion", "POST" })
     public ResponseEntity<DatosJWTToken> login(@RequestBody @Valid DatosInputLoginUsuario datos) {
         var response = service.login(datos);
         return ResponseEntity.ok(response);

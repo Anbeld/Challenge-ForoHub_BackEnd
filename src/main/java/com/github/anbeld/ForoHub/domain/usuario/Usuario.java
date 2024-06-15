@@ -3,14 +3,12 @@ package com.github.anbeld.ForoHub.domain.usuario;
 import com.github.anbeld.ForoHub.domain.curso.Curso;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,8 +31,10 @@ public class Usuario implements UserDetails{
     private String email;
 
     private String password;
-    @Getter
     private boolean status;
+
+    @Setter
+    private String url;
 
     @Enumerated(EnumType.STRING)
     private Perfil userRole;
@@ -76,7 +76,7 @@ public class Usuario implements UserDetails{
                 authorities.add(new SimpleGrantedAuthority("ROLE_DOCENTE"));
                 break;
             default:
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_VISITA"));
                 break;
         }
 

@@ -1,4 +1,6 @@
 package com.github.anbeld.ForoHub.infra.security;
 
-public record DatosJWTToken(String jwTtoken) {
+import jakarta.validation.constraints.NotBlank;
+
+public record DatosJWTToken(@NotBlank String jwTtoken) {
 }

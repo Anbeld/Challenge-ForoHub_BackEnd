@@ -25,7 +25,7 @@ public class TratadorDeErrores {
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity tratarError403(MalformedJwtException e) {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("Token JWT malformado: " + e.getMessage());
     }
 
     @ExceptionHandler(ValidacionDeIntegridad.class)

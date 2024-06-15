@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS respuestas (
     fechaCreacion DATETIME NOT NULL,
     autor_id BIGINT NOT NULL,
     respuesta VARCHAR(2000),
+    url VARCHAR(300),
 
     PRIMARY KEY (id),
 

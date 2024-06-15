@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,10 +19,13 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @Value("${api.security.token.secret}")
+    @Value("${api.security.token.secret_api}")
     private String SECRET_API;
 
-    private SecretKey secretKey;
+    @Value("${api.security.token.secret_key}")
+    private String SECRET_KEY_STRING;
+
+    private SecretKey SECRET_KEY;
 
     public String extractUserName(String token){
         return extractClaims(token, Claims::getSubject);
@@ -61,32 +64,22 @@ public class JWTService {
                 .claims(claims)
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 100*60*60*10))
+                .expiration(new Date(System.currentTimeMillis() + 100 * 60 * 60 * 2)) // Se determina como fecha de expiración dos horas apartir de creado el token
                 .signWith(getSignInKey(), Jwts.SIG.HS256).compact();
     }
 
     @PostConstruct
-    public void init() {
-        try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
-            keyGenerator.init(256); // 256 bits para HS256
-            secretKey = keyGenerator.generateKey();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Error al generar la clave: " + e.getMessage());
-        }
+    public void convertStringToSecretKey() {
+        byte[] claveBytes = Base64.getDecoder().decode(SECRET_KEY_STRING);
+        SECRET_KEY = new SecretKeySpec(claveBytes, "HmacSHA256");
     }
 
     private SecretKey getSignInKey() {
-        return secretKey;
+        return SECRET_KEY;
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){
         final String userName = extractUserName(token);
-        System.out.println("Obtenido" + userName);
-        if (isTokenExpired(token)){
-            System.out.println("Por aquí no fue");
-        }
-        System.out.println("Obtenido de la base" + userDetails.getUsername());
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 }

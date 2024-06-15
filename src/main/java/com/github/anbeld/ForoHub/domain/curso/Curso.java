@@ -29,6 +29,9 @@ public class Curso {
     private Integer numeroEstudiantes;
 
     @Setter
+    private String url;
+
+    @Setter
     @ManyToOne
     @JoinColumn(name = "docente_id")
     private Usuario docente;

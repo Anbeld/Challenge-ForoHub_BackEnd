@@ -4,10 +4,7 @@ import com.github.anbeld.ForoHub.domain.curso.Curso;
 import com.github.anbeld.ForoHub.domain.respuesta.Respuesta;
 import com.github.anbeld.ForoHub.domain.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +25,9 @@ public class Topico {
     private String mensaje;
     private LocalDateTime fechaCreacion;
     private boolean resuelto;
+
+    @Setter
+    private String url;
 
     @ManyToOne()
     @JoinColumn(name = "autor_id")
