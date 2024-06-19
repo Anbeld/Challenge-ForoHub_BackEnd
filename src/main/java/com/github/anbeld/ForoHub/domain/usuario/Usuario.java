@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,14 +15,16 @@ import java.util.List;
 @Table(name = "usuarios")
 @Entity(name = "Usuario")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Usuario implements UserDetails{
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_name")
     private String userName;
 
     @Column(unique = true)
@@ -37,6 +38,7 @@ public class Usuario implements UserDetails{
     private String url;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
     private Perfil userRole;
 
     @ManyToMany(mappedBy = "estudiantes")
@@ -53,10 +55,8 @@ public class Usuario implements UserDetails{
         this.userRole = perfil;
     }
 
-    public void actualizarPassword(DatosInputActualizarPasswordUsuario datos){
-        if (!datos.newPassword().equalsIgnoreCase("null")){
-            this.password = datos.newPassword();
-        }
+    public void actualizarPassword(String newPassword) {
+        this.password = newPassword;
     }
 
     public void desactivarUsuario() {

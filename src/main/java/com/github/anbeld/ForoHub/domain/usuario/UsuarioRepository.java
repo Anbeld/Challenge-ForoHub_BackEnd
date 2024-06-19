@@ -12,20 +12,14 @@ import java.util.Optional;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    @Query(value = "SELECT s FROM Usuario s WHERE s.email=:email AND s.password=:password")
-    Optional<Usuario> verificarCorreoPasswordUsuarioLogin(String email, String password);
-
     @Query(value = "SELECT s FROM Usuario s WHERE s.status=true AND s.userRole=:perfil")
-    Page<Usuario> findByStatusTrueAndUserRole(Pageable paginacion, Perfil perfil);
+    Page<Usuario> obtenerUsuariosPorStatusActivoYPerfil(Pageable paginacion, Perfil perfil);
 
     @Query(value = "SELECT s FROM Usuario s WHERE s.id=:id AND s.userRole=:perfil")
     Optional<Usuario> obtenerUsuarioPorIdYPerfil(Long id, Perfil perfil);
 
     @Query(value = "SELECT s FROM Usuario s WHERE s.email=:email AND s.password=:password AND s.userRole=:perfil")
-    Optional<Usuario> verificarCorreoPasswordPerfilUsuario(String email, String password, Perfil perfil);
-
-    @Query(value = "SELECT s FROM Usuario s WHERE s.id=:id")
-    Optional<Usuario> obtenerUsuarioPorId(Long id);
+    Optional<Usuario> verificarUsuarioPorEmailPasswordPerfil(String email, String password, Perfil perfil);
 
     UserDetails findByEmail(String email);
 

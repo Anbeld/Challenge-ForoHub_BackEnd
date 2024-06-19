@@ -18,8 +18,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -61,13 +59,14 @@ public class UsuarioService {
 
     // Registrar nuevo usuario
     public Usuario registrarUsuario(DatosInputRegistrarUsuario datos, Perfil perfil, UriComponentsBuilder uriComponentsBuilder) {
-        var encryptedPassword = passwordEncoder.encode(datos.password());
-
         // Revisa si existe un usuario inscrito que ya tenga el email ingresado
         Optional<Usuario> usuarioRegistrado = repository.obtenerUsuarioPorEmail(datos.email());
 
         // Crea y guarda el nuevo usuario en la base de datos
         if (usuarioRegistrado.isEmpty()) {
+            // Encripta la contraseña antes de guardarla
+            var encryptedPassword = passwordEncoder.encode(datos.password());
+
             Usuario nuevoUsuario = new Usuario(datos, perfil, encryptedPassword);
             repository.save(nuevoUsuario); // Guarda el nuevo usuario en la base de datos
 
@@ -92,7 +91,7 @@ public class UsuarioService {
     // Obtener listado de usuarios activos por perfil
     public Page<DatosOutputUsuario> listadoUsuariosActivosPorPerfil(Pageable paginacion, Perfil perfil) {
         // Busca todos los usuarios que cumplan la condición y los conveierte a DatosOutputUsuario para mostrar al usuario
-        return repository.findByStatusTrueAndUserRole(paginacion, perfil).map(DatosOutputUsuario::new);
+        return repository.obtenerUsuariosPorStatusActivoYPerfil(paginacion, perfil).map(DatosOutputUsuario::new);
     }
 
     // Obtener un estudiante por su id
@@ -120,11 +119,15 @@ public class UsuarioService {
     // Actualizar la contraseña de un usuario
     public DatosOutputUsuario actualizarPasswordUsuario(DatosInputActualizarPasswordUsuario datos, Perfil perfil) {
         // Revisa si existe un usuario que cumpla las condiciones en la base de datos
-        var response = repository.verificarCorreoPasswordPerfilUsuario(datos.email(), datos.currentPassword(), perfil);
+        var response = repository.verificarUsuarioPorEmailPasswordPerfil(datos.email(), datos.currentPassword(), perfil);
         if (response.isPresent()) {
+            // Encripta la nueva contraseña antes de guardarla
+            var encryptedPassword = passwordEncoder.encode(datos.newPassword());
+
             // Actualiza la contraseña
-            response.get().actualizarPassword(datos);
+            response.get().actualizarPassword(encryptedPassword);
             return new DatosOutputUsuario(response.get());
+
         } else {
             // Informa que la información no es correcta
             throw new ValidacionDeIntegridad("Verifique la información suministrada");
@@ -133,9 +136,10 @@ public class UsuarioService {
 
     // Delete lógido de un usuario
     public void desactivarUsuario(Long id, Perfil perfil) {
-        var response = repository.getReferenceById(id);
-        if (response.getUserRole().equals(perfil)) {
-            response.desactivarUsuario();
+        Usuario usuarioRegistrado = repository.getReferenceById(id);
+        if (usuarioRegistrado.getUserRole().equals(perfil)) {
+            usuarioRegistrado.desactivarUsuario();
+            repository.save(usuarioRegistrado);
         }
     }
 }

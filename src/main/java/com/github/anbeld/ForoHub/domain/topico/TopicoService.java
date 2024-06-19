@@ -26,12 +26,12 @@ public class TopicoService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    CursoRepository cursoRepository;
+    private CursoRepository cursoRepository;
 
     // Registrar un nuevo tópico
     public Topico registrarTopico(DatosInputTopico datos, UriComponentsBuilder uriComponentsBuilder) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
-        Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.usuario_id());
+        Optional<Usuario> usuarioRegistrado = usuarioRepository.findById(datos.usuario_id());
 
         if (usuarioRegistrado.isPresent()) {
             // Revisa si existe un curso registrado con ese id en la base de datos
@@ -77,24 +77,16 @@ public class TopicoService {
     }
 
     // Delete logico
-    public void cerrarTopico(DatosInputDeleteTopico datos) {
-        // Revisa si existe un usuario registrado con ese id en la base de datos
-        Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.autor_id());
+    public void cerrarTopico(Long id) {
+        // Revisa si existe un topico registrado con ese id y autor en la base de datos
+        Optional<Topico> topicoRegistrado = topicoRepository.findById(id);
 
-        if (usuarioRegistrado.isPresent()) {
-
-            // Revisa si existe un topico registrado con ese id y autor en la base de datos
-            Optional<Topico> topicoRegistrado = topicoRepository.obtenerTopicoPorIdYAutor(datos.topico_id(), usuarioRegistrado.get());
-
-            if (topicoRegistrado.isPresent()) {
-                // Realiza el Delete lógico y actualiza la información en la base de datos
-                topicoRegistrado.get().cerrarTopico();
-                topicoRepository.save(topicoRegistrado.get());
-            } else {
-                throw new ValidacionDeIntegridad("El topico ingresado no es válido");
-            }
+        if (topicoRegistrado.isPresent()) {
+            // Realiza el Delete lógico y actualiza la información en la base de datos
+            topicoRegistrado.get().cerrarTopico();
+            topicoRepository.save(topicoRegistrado.get());
         } else {
-            throw new ValidacionDeIntegridad("El usuario ingresado no es válido");
+            throw new ValidacionDeIntegridad("El topico ingresado no es válido");
         }
     }
 }

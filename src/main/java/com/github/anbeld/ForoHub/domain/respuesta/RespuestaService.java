@@ -31,7 +31,7 @@ public class RespuestaService {
     // Registrar una nueva respuesta
     public Respuesta registrarRespuesta(DatosInputRespuesta datos, UriComponentsBuilder uriComponentsBuilder) {
         // Revisa si existe un usuario que registrado con ese id en la base de datos
-        Optional<Usuario> usuarioRegistrado = usuarioRepository.obtenerUsuarioPorId(datos.autor_id());
+        Optional<Usuario> usuarioRegistrado = usuarioRepository.findById(datos.autor_id());
 
         if (usuarioRegistrado.isPresent()) {
             // Revisa si existe un topico que registrado con ese id en la base de datos

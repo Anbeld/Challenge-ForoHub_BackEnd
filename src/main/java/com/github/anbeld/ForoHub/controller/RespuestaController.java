@@ -3,7 +3,6 @@ package com.github.anbeld.ForoHub.controller;
 import com.github.anbeld.ForoHub.domain.respuesta.DatosInputRespuesta;
 import com.github.anbeld.ForoHub.domain.respuesta.DatosOutputRespuesta;
 import com.github.anbeld.ForoHub.domain.respuesta.RespuestaService;
-import com.github.anbeld.ForoHub.domain.topico.DatosOutputTopico;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

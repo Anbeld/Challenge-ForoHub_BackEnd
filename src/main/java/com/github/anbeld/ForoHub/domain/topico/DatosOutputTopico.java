@@ -10,9 +10,9 @@ public record DatosOutputTopico(
         String autor,
         String titulo,
         String mensaje,
-        LocalDateTime fechaCreacion,
+        LocalDateTime fecha_creacion,
         Boolean resuelto,
-        String nombreCurso
+        String nombre_curso
 ) {
     public DatosOutputTopico (Topico topico){
         this(topico.getId(), topico.getAutor().getUserName(), topico.getTitulo(), topico.getMensaje(), topico.getFechaCreacion(), topico.isResuelto(), topico.getCurso().getNombre());

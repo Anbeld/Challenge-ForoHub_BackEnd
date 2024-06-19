@@ -1,7 +1,6 @@
 package com.github.anbeld.ForoHub.controller;
 
 import com.github.anbeld.ForoHub.domain.curso.*;
-import com.github.anbeld.ForoHub.domain.usuario.DatosOutputUsuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -69,11 +68,11 @@ public class CursoController {
     // Si es estudiante, muestra todos los cursos en lo que se encuentra registrado
     @GetMapping(path = "/{id}")
     @Operation(
-            summary = "Obtener Listado de Cursos por Autor",
-            description = "Obtiene el listado de cursos registrados por un autor específico",
+            summary = "Obtener Listado de Cursos por usuario",
+            description = "Obtiene el listado de cursos registrados por un usuario específico",
             tags = { "Cursos", "GET" })
-    public ResponseEntity<Page<DatosOutputCurso>> obtenerListadoCursosPorIdAutor(@PageableDefault(page = 0, size = 10, sort = {"nombre"}) Pageable paginacion, @PathVariable Long id){
-        var response = service.obtenerListadoCursosPorIdAutor(paginacion, id);
+    public ResponseEntity<Page<DatosOutputCurso>> obtenerListadoCursosPorIdUsuario(@PageableDefault(page = 0, size = 10, sort = {"nombre"}) Pageable paginacion, @PathVariable Long id){
+        var response = service.obtenerListadoCursosPorIdUsuario(paginacion, id);
         return ResponseEntity.ok(response);
     }
 

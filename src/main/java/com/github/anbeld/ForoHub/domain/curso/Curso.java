@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "cursos")
 @Entity(name = "Curso")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -26,12 +27,12 @@ public class Curso {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
+    @Column(name = "numero_estudiantes")
     private Integer numeroEstudiantes;
 
     @Setter
     private String url;
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "docente_id")
     private Usuario docente;

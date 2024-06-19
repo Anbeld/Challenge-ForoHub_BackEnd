@@ -5,9 +5,9 @@ import com.github.anbeld.ForoHub.domain.usuario.Usuario;
 
 public record DatosOutputRegistrarEstudianteCurso(
         @JsonAlias("userName")
-        String nombreEstudiante,
+        String nombre_estudiante,
         @JsonAlias("nombre")
-        String cursoRegistrado
+        String curso_registrado
 ) {
     public DatosOutputRegistrarEstudianteCurso(Usuario estudiante, Curso curso) {
         this(estudiante.getUsername(), curso.getNombre());

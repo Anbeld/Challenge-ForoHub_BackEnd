@@ -1,6 +1,5 @@
 package com.github.anbeld.ForoHub.infra.security;
 
-import com.github.anbeld.ForoHub.domain.usuario.Usuario;
 import com.github.anbeld.ForoHub.domain.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "respuestas")
 @Entity(name = "Respuesta")
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -23,6 +24,7 @@ public class Respuesta {
     @JoinColumn(name = "topico_id")
     private Topico topico;
 
+    @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
     @ManyToOne
@@ -39,5 +41,6 @@ public class Respuesta {
         this.fechaCreacion = LocalDateTime.now();
         this.autor = autor;
         this.respuesta = respuesta;
+        topico.getRespuestas().add(this);
     }
 }

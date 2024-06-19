@@ -1,6 +1,5 @@
 package com.github.anbeld.ForoHub.infra.security;
 
-import com.github.anbeld.ForoHub.infra.errores.ValidacionDeIntegridad;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {

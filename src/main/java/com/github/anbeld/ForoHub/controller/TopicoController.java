@@ -1,7 +1,4 @@
 package com.github.anbeld.ForoHub.controller;
-
-import com.github.anbeld.ForoHub.domain.curso.DatosOutputCurso;
-import com.github.anbeld.ForoHub.domain.topico.DatosInputDeleteTopico;
 import com.github.anbeld.ForoHub.domain.topico.DatosInputTopico;
 import com.github.anbeld.ForoHub.domain.topico.DatosOutputTopico;
 import com.github.anbeld.ForoHub.domain.topico.TopicoService;
@@ -78,13 +75,13 @@ public class TopicoController {
     }
 
     // Delete lógico de un tópico
-    @DeleteMapping
+    @DeleteMapping(path = "/{id}")
     @Operation(
             summary = "Cerrar Tópico",
             description = "Cierra un tópico de forma lógica en la base de datos",
             tags = { "Topicos", "DELETE" })
-    public ResponseEntity cerrarTopico(@RequestBody @Valid DatosInputDeleteTopico datos){
-        service.cerrarTopico(datos);
+    public ResponseEntity cerrarTopico(@PathVariable Long id){
+        service.cerrarTopico(id);
         return ResponseEntity.noContent().build();
     }
 }

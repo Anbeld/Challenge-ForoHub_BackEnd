@@ -84,7 +84,7 @@ public class CursoService {
     }
 
     // Obtener listado de cursos por id y autor
-    public Page<DatosOutputCurso> obtenerListadoCursosPorIdAutor(Pageable paginacion, Long id) {
+    public Page<DatosOutputCurso> obtenerListadoCursosPorIdUsuario(Pageable paginacion, Long id) {
 
         Usuario usuario = usuarioRepository.getReferenceById(id);
         // Si es docente, muestra todos los cursos que ha creado
@@ -92,7 +92,7 @@ public class CursoService {
             Page<Curso> cursos = cursoRepository.obtenerCursosPorIdDocente(paginacion, id);
             return cursos.map(DatosOutputCurso::new);
 
-            // Si es estudiante, muestra todos los cursos en lo que se encuentra registrado
+        // Si es estudiante, muestra todos los cursos en lo que se encuentra registrado
         } else {
             Page<Curso> cursos = cursoRepository.obtenerCursosPorIdEstudiante(paginacion, id);
             return cursos.map(DatosOutputCurso::new);

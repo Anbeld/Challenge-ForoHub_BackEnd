@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public record DatosOutputRespuesta(
         Long respuesta_id,
-        String tituloTopico,
+        String titulo_topico,
         String curso,
-        String autorRespuesta,
-        LocalDateTime fechaCreacion,
+        String autor,
+        LocalDateTime fecha_creacion,
         String respuesta
 ) {
     public DatosOutputRespuesta(Respuesta respuesta) {

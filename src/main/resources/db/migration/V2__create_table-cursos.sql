@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS cursos (
     id BIGINT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL UNIQUE,
     categoria VARCHAR(20) NOT NULL,
-    numeroEstudiantes INTEGER NOT NULL,
+    numero_estudiantes INTEGER NOT NULL,
     url VARCHAR(300),
     docente_id BIGINT NOT NULL,
 
