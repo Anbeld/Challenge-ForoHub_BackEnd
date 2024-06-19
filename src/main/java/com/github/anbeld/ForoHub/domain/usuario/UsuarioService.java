@@ -119,10 +119,10 @@ public class UsuarioService {
     // Actualizar la contraseña de un usuario
     public DatosOutputUsuario actualizarPasswordUsuario(DatosInputActualizarPasswordUsuario datos, Perfil perfil) {
         // Revisa si existe un usuario que cumpla las condiciones en la base de datos
-        var response = repository.verificarUsuarioPorEmailPasswordPerfil(datos.email(), datos.currentPassword(), perfil);
+        var response = repository.verificarUsuarioPorEmailPasswordPerfil(datos.email(), datos.current_password(), perfil);
         if (response.isPresent()) {
             // Encripta la nueva contraseña antes de guardarla
-            var encryptedPassword = passwordEncoder.encode(datos.newPassword());
+            var encryptedPassword = passwordEncoder.encode(datos.new_password());
 
             // Actualiza la contraseña
             response.get().actualizarPassword(encryptedPassword);

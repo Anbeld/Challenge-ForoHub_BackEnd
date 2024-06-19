@@ -9,6 +9,6 @@ public record DatosInputRegistrarCurso(
         @NotNull
         Categoria categoria,
         @NotNull
-        Long docenteId
+        Long docente_id
 ) {
 }

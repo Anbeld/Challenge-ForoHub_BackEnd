@@ -21,7 +21,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping(path = "/respuestas")
+@RequestMapping(path = "/api/respuestas")
 @SecurityRequirement(name = "bearer-key")
 @Tag(name = "Respuestas", description = "Operaciones relacionadas con las respuestas a los tópicos")
 public class RespuestaController {

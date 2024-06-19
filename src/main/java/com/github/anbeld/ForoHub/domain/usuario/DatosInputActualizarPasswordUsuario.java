@@ -9,8 +9,8 @@ public record DatosInputActualizarPasswordUsuario(
         @NotBlank
         String email,
         @NotBlank
-        String currentPassword,
+        String current_password,
         @NotBlank
-        String newPassword
+        String new_password
 ) {
 }

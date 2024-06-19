@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record DatosInputRegistrarUsuario(
         @JsonAlias("nombre")
         @NotBlank
-        String userName,
-
+        String user_name,
         @NotBlank
         String email,
         @NotBlank

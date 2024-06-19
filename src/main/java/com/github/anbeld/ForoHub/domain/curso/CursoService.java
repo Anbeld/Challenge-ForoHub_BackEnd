@@ -27,7 +27,7 @@ public class CursoService {
     // Registrar un curso
     public Curso registrarCurso(DatosInputRegistrarCurso datos, UriComponentsBuilder uriComponentsBuilder) {
         // Revisa si existe un docente que cumpla las condiciones en la base de datos
-        Optional<Usuario> docenteVerificado = usuarioRepository.obtenerUsuarioPorIdYPerfil(datos.docenteId(), Perfil.DOCENTE);
+        Optional<Usuario> docenteVerificado = usuarioRepository.obtenerUsuarioPorIdYPerfil(datos.docente_id(), Perfil.DOCENTE);
 
         if (docenteVerificado.isPresent()) {
             // Revisa si existe un curso inscrito que ya tenga el nombre ingresado

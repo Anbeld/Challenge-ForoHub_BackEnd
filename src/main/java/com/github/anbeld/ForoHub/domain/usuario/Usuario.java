@@ -48,7 +48,7 @@ public class Usuario implements UserDetails {
     private List<Curso> cursosDocente = new ArrayList<>();
 
     public Usuario(DatosInputRegistrarUsuario datos, Perfil perfil, String password) {
-        this.userName = datos.userName();
+        this.userName = datos.user_name();
         this.email = datos.email();
         this.password = password;
         this.status = true;

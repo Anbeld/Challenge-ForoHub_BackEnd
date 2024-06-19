@@ -20,7 +20,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping(path = "/topicos")
+@RequestMapping(path = "/api/topicos")
 @SecurityRequirement(name = "bearer-key")
 @Tag(name = "Topicos", description = "Operaciones relacionadas con los tópicos")
 public class TopicoController {

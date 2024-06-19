@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/login")
+@RequestMapping(path = "/api/login")
 @Tag(name = "Autenticacion", description = "Obtiene el token para el usuario ingresado que da acceso al resto de endpoint")
 public class AuthenticationController {
 

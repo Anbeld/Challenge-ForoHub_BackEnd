@@ -20,7 +20,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @RestController
-@RequestMapping(path = "/docentes")
+@RequestMapping(path = "/api/docentes")
 @Tag(name = "Docentes", description = "Operaciones relacionadas con los docentes")
 public class DocenteController {
 

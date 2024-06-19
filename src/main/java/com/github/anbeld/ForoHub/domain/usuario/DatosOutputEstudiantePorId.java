@@ -13,7 +13,7 @@ public record DatosOutputEstudiantePorId(
         String nombre,
         String email,
         Perfil perfil,
-        List<DatosOutputCursoPorUsuarioId> cursosEstudiante) {
+        List<DatosOutputCursoPorUsuarioId> cursos_estudiante) {
 
     public DatosOutputEstudiantePorId(Usuario usuario) {
         this(usuario.getId(), usuario.getUserName(), usuario.getEmail(), usuario.getUserRole(),
