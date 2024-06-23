@@ -9,6 +9,7 @@ public record DatosInputRegistrarUsuario(
         String user_name,
         @NotBlank
         String email,
+        @JsonAlias("contraseña")
         @NotBlank
         String password) {
 }

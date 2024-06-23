@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import java.time.LocalDateTime;
 
 public record DatosOutputTopico(
-        @JsonAlias("id")
         Long topico_id,
         String autor,
         String titulo,
