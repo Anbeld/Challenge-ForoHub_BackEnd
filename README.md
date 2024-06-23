@@ -5,7 +5,7 @@ API tipo CRUD (CREATE, READ, UPDATE, DELETE) centrada el ecosistema de una plata
 ## Entidades
 - [Usuario](#usuario)
 - [Curso](#curso)
-- [Tópico](#topico)
+- [Tópico](#tópico)
 - [Respuesta](#respuesta)
 
 ### Usuario
